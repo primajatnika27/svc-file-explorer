@@ -9,9 +9,13 @@ import { GetFilesService } from "../../core/usecases/GetFilesService";
 import { CreateFileService } from "../../core/usecases/CreateFileService";
 import { FolderRepositoryImpl } from "../database/FolderRepositoryImpl";
 import { FileRepositoryImpl } from "../database/FileRepositoryImpl";
+import { MinioStorage } from "../storage/MinioStorage";
+
+// Storage
+const storage = new MinioStorage();
 
 // Repositories
-const fileRepository = new FileRepositoryImpl();
+const fileRepository = new FileRepositoryImpl(storage);
 const folderRepository = new FolderRepositoryImpl(fileRepository);
 
 // Services

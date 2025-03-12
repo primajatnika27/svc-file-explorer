@@ -20,7 +20,14 @@ export class FileController {
     }
   }
 
-  async createFile(name: string, extension: string, parentId: string) {
+  async createFile(
+    name: string,
+    extension: string,
+    parentId: string,
+    fileBuffer: Buffer,
+    mimeType: string,
+    size: number
+  ) {
     try {
       if (!name?.trim()) {
         return ApiResponseHandler.badRequest("File name cannot be empty");
@@ -31,7 +38,10 @@ export class FileController {
       const file = await this.createFileUsecase.createFile(
         name.trim(),
         extension.trim(),
-        parentId
+        parentId,
+        fileBuffer,
+        mimeType,
+        size
       );
       return ApiResponseHandler.created(file, "File created successfully");
     } catch (error) {
@@ -79,6 +89,23 @@ export class FileController {
         );
       }
       return ApiResponseHandler.error("Failed to delete file: Unknown error");
+    }
+  }
+
+  async getFileUrl(id: string) {
+    try {
+      const url = await this.createFileUsecase.getFileUrl(id);
+      return ApiResponseHandler.success(
+        { url },
+        "File URL generated successfully"
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponseHandler.error(
+          `Failed to get file URL: ${error.message}`
+        );
+      }
+      return ApiResponseHandler.error("Failed to get file URL: Unknown error");
     }
   }
 }

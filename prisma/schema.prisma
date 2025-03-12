@@ -23,9 +23,12 @@ model Folder {
 }
 
 model File {
-  id        String @id @default(uuid())
-  name      String
-  extension String
-  parentId  String @map("parent_id")
-  parent    Folder @relation("FolderFiles", fields: [parentId], references: [id])
+  id         String  @id @default(uuid())
+  name       String
+  extension  String
+  parentId   String  @map("parent_id")
+  parent     Folder  @relation("FolderFiles", fields: [parentId], references: [id])
+  storageKey String  @map("storage_key")
+  mimeType   String  @map("mime_type")
+  size       Int
 }

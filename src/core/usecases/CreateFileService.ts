@@ -7,9 +7,19 @@ export class CreateFileService {
   async createFile(
     name: string,
     extension: string,
-    parentId: string
+    parentId: string,
+    fileBuffer: Buffer,
+    mimeType: string,
+    size: number
   ): Promise<File> {
-    return this.fileRepo.createFile(name, extension, parentId);
+    return this.fileRepo.createFile(
+      name,
+      extension,
+      parentId,
+      fileBuffer,
+      mimeType,
+      size
+    );
   }
 
   async updateFile(id: string, name: string, extension: string): Promise<File> {
@@ -18,5 +28,9 @@ export class CreateFileService {
 
   async deleteFile(id: string): Promise<void> {
     return this.fileRepo.deleteFile(id);
+  }
+
+  async getFileUrl(id: string): Promise<string> {
+    return this.fileRepo.getFileUrl(id);
   }
 }
