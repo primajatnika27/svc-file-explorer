@@ -8,6 +8,10 @@ export class GetFoldersService {
     return this.folderRepo.getAllFolders();
   }
 
+  async getFolderById(id: string): Promise<Folder> {
+    return await this.folderRepo.getFolderById(id);
+  }
+
   async getSubfolders(parentId: String): Promise<Folder[]> {
     return await this.folderRepo.getSubFolders(parentId);
   }

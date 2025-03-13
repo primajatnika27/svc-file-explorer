@@ -24,6 +24,21 @@ export class FolderController {
     }
   }
 
+  async getFolderById(id: string) {
+    try {
+      const folder = await this.folderUsecase.getFolderById(id);
+      return ApiResponseHandler.success(
+        folder,
+        "Folder retrieved successfully"
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        return ApiResponseHandler.error(error.message);
+      }
+      return ApiResponseHandler.error("Failed to retrieve folder");
+    }
+  }
+
   async getSubfolders(parentId: string) {
     try {
       const folders = await this.folderUsecase.getSubfolders(parentId);

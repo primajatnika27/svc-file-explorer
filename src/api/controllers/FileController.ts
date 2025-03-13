@@ -54,19 +54,13 @@ export class FileController {
     }
   }
 
-  async updateFile(id: string, name: string, extension: string) {
+  async updateFile(id: string, name: string) {
     try {
       if (!name?.trim()) {
         return ApiResponseHandler.badRequest("File name cannot be empty");
       }
-      if (!extension?.trim()) {
-        return ApiResponseHandler.badRequest("File extension cannot be empty");
-      }
-      const file = await this.createFileUsecase.updateFile(
-        id,
-        name.trim(),
-        extension.trim()
-      );
+
+      const file = await this.createFileUsecase.updateFile(id, name.trim());
       return ApiResponseHandler.success(file, "File updated successfully");
     } catch (error) {
       if (error instanceof Error) {

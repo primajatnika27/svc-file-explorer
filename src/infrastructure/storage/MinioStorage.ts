@@ -28,8 +28,6 @@ export class MinioStorage implements FileStorage {
     // Ensure bucket exists
     this.initBucket().catch((error) => {
       console.error("Failed to initialize bucket:", error);
-      // Don't throw here to allow the application to start
-      // Individual operations will fail if bucket is not available
     });
   }
 
@@ -39,8 +37,6 @@ export class MinioStorage implements FileStorage {
       if (!exists) {
         await this.client.makeBucket(this.bucketName, "us-east-1");
         console.log(`Bucket ${this.bucketName} created successfully`);
-
-        // For play.min.io, we don't need to set bucket policy as it's handled differently
       } else {
         console.log(`Bucket ${this.bucketName} already exists`);
       }
@@ -79,11 +75,11 @@ export class MinioStorage implements FileStorage {
     }
   }
 
-  async getFileUrl(filename: string): Promise<string> {
+  async getFileUrl(storageKey: string): Promise<string> {
     try {
       return await this.client.presignedGetObject(
         this.bucketName,
-        filename,
+        storageKey,
         60 * 60 // 1 hour expiry
       );
     } catch (error) {
@@ -92,9 +88,9 @@ export class MinioStorage implements FileStorage {
     }
   }
 
-  async deleteFile(filename: string): Promise<void> {
+  async deleteFile(storageKey: string): Promise<void> {
     try {
-      await this.client.removeObject(this.bucketName, filename);
+      await this.client.removeObject(this.bucketName, storageKey);
     } catch (error) {
       console.error("Failed to delete file:", error);
       throw error;

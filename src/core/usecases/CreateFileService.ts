@@ -22,8 +22,8 @@ export class CreateFileService {
     );
   }
 
-  async updateFile(id: string, name: string, extension: string): Promise<File> {
-    return this.fileRepo.updateFile(id, name, extension);
+  async updateFile(id: string, name: string): Promise<File> {
+    return this.fileRepo.updateFile(id, name);
   }
 
   async deleteFile(id: string): Promise<void> {

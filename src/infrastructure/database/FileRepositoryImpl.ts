@@ -67,12 +67,11 @@ export class FileRepositoryImpl implements FileRepository {
     );
   }
 
-  async updateFile(id: string, name: string, extension: string): Promise<File> {
+  async updateFile(id: string, name: string): Promise<File> {
     const file = await prisma.file.update({
       where: { id },
       data: {
         name,
-        extension,
       },
     });
 
@@ -95,7 +94,7 @@ export class FileRepositoryImpl implements FileRepository {
     if (!file) return;
 
     // Delete from storage first
-    await this.storage.deleteFile(file.storageKey);
+    // await this.storage.deleteFile(file.storageKey);
 
     // Then delete database record
     await prisma.file.delete({

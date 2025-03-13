@@ -1,4 +1,5 @@
 import { File } from "./File";
+import type { RootsNavigation } from "./RootsNavigation";
 
 export class Folder {
   constructor(
@@ -6,6 +7,7 @@ export class Folder {
     public id: string = "",
     public parentId: string | null = null,
     public subFolders: Folder[] = [],
-    public files: File[] = []
+    public files: File[] = [],
+    public rootNavigation: RootsNavigation[] = []
   ) {}
 }

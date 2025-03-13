@@ -2,6 +2,7 @@ import type { Folder } from "../models/Folder";
 
 export interface FolderRepository {
   getAllFolders(): Promise<Folder[]>;
+  getFolderById(id: string): Promise<Folder>;
   getSubFolders(parentId: String): Promise<Folder[]>;
 
   createFolder(folder: Folder): Promise<Folder>;

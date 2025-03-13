@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import type { FolderRepository } from "../../core/interfaces/FolderRepository";
 import { Folder } from "../../core/models/Folder";
 import type { FileRepository } from "../../core/interfaces/FileRepository";
+import { RootsNavigation } from "../../core/models/RootsNavigation";
 
 const prisma = new PrismaClient();
 
@@ -100,6 +101,31 @@ export class FolderRepositoryImpl implements FolderRepository {
     );
   }
 
+  async getFolderById(id: string): Promise<Folder> {
+    const folder = await prisma.folder.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!folder) {
+      throw new Error("Folder not found");
+    }
+
+    const files = await this.fileRepo.getFilesByFolderId(folder.id);
+    const subFolders = await this.getSubFolders(folder.id);
+    const rootNavigation = await this.getRootNavigationById(folder.id);
+
+    return new Folder(
+      folder.name,
+      folder.id,
+      folder.parentId,
+      subFolders,
+      files,
+      rootNavigation
+    );
+  }
+
   async getSubFolders(parentId: string): Promise<Folder[]> {
     const folders = await prisma.folder.findMany({
       where: {
@@ -115,5 +141,27 @@ export class FolderRepositoryImpl implements FolderRepository {
         return new Folder(f.name, f.id, f.parentId, subFolders, files);
       })
     );
+  }
+
+  async getRootNavigationById(parentId: string): Promise<RootsNavigation[]> {
+    const result = [];
+
+    let currentFolder = await prisma.folder.findFirst({
+      where: { id: parentId },
+    });
+
+    while (currentFolder) {
+      result.unshift(new RootsNavigation(currentFolder.name, currentFolder.id));
+
+      if (currentFolder.parentId) {
+        currentFolder = await prisma.folder.findFirst({
+          where: { id: currentFolder.parentId },
+        });
+      } else {
+        break;
+      }
+    }
+
+    return result;
   }
 }

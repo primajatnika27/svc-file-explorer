@@ -10,6 +10,11 @@ import { CreateFileService } from "../../core/usecases/CreateFileService";
 import { FolderRepositoryImpl } from "../database/FolderRepositoryImpl";
 import { FileRepositoryImpl } from "../database/FileRepositoryImpl";
 import { MinioStorage } from "../storage/MinioStorage";
+import swagger from "@elysiajs/swagger";
+import cors from "@elysiajs/cors";
+
+// Base Path
+const BASE_PATH = "/api/v1";
 
 // Storage
 const storage = new MinioStorage();
@@ -34,9 +39,12 @@ const fileController = new FileController(getFileService, createFileService);
 const app = new Elysia();
 
 // Routes
-folderRoutes(app, folderController);
-fileRoutes(app, fileController);
+folderRoutes(app, folderController, BASE_PATH);
+fileRoutes(app, fileController, BASE_PATH);
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+app
+  .use(swagger())
+  .use(cors())
+  .listen(3000, () => {
+    console.log("Server is running on http://localhost:3000");
+  });

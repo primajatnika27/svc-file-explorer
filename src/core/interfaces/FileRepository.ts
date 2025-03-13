@@ -10,7 +10,7 @@ export interface FileRepository {
     mimeType: string,
     size: number
   ): Promise<File>;
-  updateFile(id: string, name: string, extension: string): Promise<File>;
+  updateFile(id: string, name: string): Promise<File>;
   deleteFile(id: string): Promise<void>;
   getFileUrl(id: string): Promise<string>;
 }
