@@ -73,13 +73,6 @@ The `DATABASE_URL` follows this format:
 - `?schema=public` - Schema name (default is public)
 ```
 
-## Usage
-
-1. **Start the server**
-```bash
-bun run dev
-```
-
 2. **API Endpoints**
 
 - **Files**
