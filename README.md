@@ -6,7 +6,7 @@ A modern file explorer service built with Elysia and Bun, providing robust file 
 
 - **File Management**
   - Upload files
-  - Download files
+  - View files
   - Delete files
   - List files in folders
   - Get file details
@@ -49,6 +49,28 @@ MINIO_PORT=9000
 MINIO_ACCESS_KEY=your-access-key
 MINIO_SECRET_KEY=your-secret-key
 MINIO_BUCKET_NAME=your-bucket-name
+
+# Database Configuration
+DATABASE_URL="postgresql://username:password@localhost:5432/your-database-name?schema=public"
+```
+
+4. **Initialize Prisma**
+```bash
+# Generate Prisma Client
+bun prisma generate
+
+# Run database migrations
+bun prisma migrate dev
+```
+
+The `DATABASE_URL` follows this format:
+- `postgresql://` - Database protocol
+- `username` - Your database username
+- `password` - Your database password
+- `localhost` - Database host
+- `5432` - PostgreSQL default port
+- `your-database-name` - Your database name
+- `?schema=public` - Schema name (default is public)
 ```
 
 ## Usage
