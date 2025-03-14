@@ -44,11 +44,11 @@ bun install
 3. **Configure environment variables**
 Create a `.env` file in the root directory:
 ```env
-MINIO_ENDPOINT=your-minio-endpoint
-MINIO_PORT=9000
-MINIO_ACCESS_KEY=your-access-key
-MINIO_SECRET_KEY=your-secret-key
-MINIO_BUCKET_NAME=your-bucket-name
+MINIO_ENDPOINT=play.min.io
+MINIO_PORT=443
+MINIO_ACCESS_KEY=Q3AM3UQ867SPQQA43P2F
+MINIO_SECRET_KEY=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+MINIO_BUCKET_NAME=file-explorer-bucket
 
 # Database Configuration
 DATABASE_URL="postgresql://username:password@localhost:5432/your-database-name?schema=public"
